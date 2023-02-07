@@ -1,0 +1,10 @@
+{
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.6",
+        "guzzlehttp/psr7": "^2",
+        "doctrine/orm": "^2.14",
+        "symfony/cache": "^6.2",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
