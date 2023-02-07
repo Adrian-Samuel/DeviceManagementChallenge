@@ -10,17 +10,17 @@ use Doctrine\ORM\Mapping\Table;
 final class Device
 {
     #[Id, Column(type: 'string', unique: true), GeneratedValue(strategy: 'AUTO')]
-    private $id;
+    private string $id;
     #[Column(type:'string')]
-    private $model;
+    private string $model;
     #[Column(type:'string')]
-    private $brand;
+    private string $brand;
     #[Column(type:'string', nullable:true)]
-    private $release_date;
+    private string $release_date;
     #[Column(type:'string', nullable:true)]
-    private $os;
+    private string $os;
     #[Column(type:'boolean', nullable:true, default: false)]
-    private $is_new;
+    private bool $is_new;
     #[Column(type:'datetime', nullable:true, columnDefinition:"DATETIME DEFAULT CURRENT_TIMESTAMP" )]
-    private $received_datatime;
+    private datetime $received_datatime;
 }
