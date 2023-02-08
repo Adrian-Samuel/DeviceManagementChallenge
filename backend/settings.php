@@ -3,7 +3,7 @@
 use Dotenv\Dotenv;
 
 const APP_ROOT = __DIR__;
-$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv::createImmutable(APP_ROOT);
 $dotenv->load();
 
 

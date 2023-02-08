@@ -1,5 +1,13 @@
 <?php
 
+use Dotenv\Dotenv;
+
+const APP_ROOT = __DIR__;
+$envPath = require '../.env';
+$dotenv = Dotenv::createImmutable($envPath);
+$dotenv->load();
+
+
 try {
     $conn = new PDO("pgsql:host=$_GET('DATABASE_HOST');dbname=$_GET('DATABASE_NAME')", $_GET('DATABASE_USER'), $_GET('DATABASE_PASSWORD'));
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

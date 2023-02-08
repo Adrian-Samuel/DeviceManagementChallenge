@@ -2,15 +2,10 @@
     "require": {
         "slim/slim": "4.*",
         "slim/psr7": "^1.6",
-        "guzzlehttp/psr7": "^2",
         "doctrine/orm": "^2.14",
         "symfony/cache": "^6.2",
         "vlucas/phpdotenv": "^5.5",
-        "psr/container": "^2.0",
-        "php-di/slim-bridge": "^3.3",
-        "php-di/php-di": "^7.0",
         "illuminate/collections": "^9.51",
-        "httpsoft/http-response": "^1.0",
       "ext-pdo": "*"
     }
 }
