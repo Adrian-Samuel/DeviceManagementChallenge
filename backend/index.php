@@ -31,6 +31,7 @@ require_once __DIR__ . '/src/Controllers/DeviceController.php';
  $app = AppFactory::create();
 
  $app->get('/devices', [$deviceController, 'index']);
+ $app->get('/device/{id}', [$deviceController, 'get']);
  $app->post('/device', [$deviceController, 'create']);
  $app->put('/device/{id}', [$deviceController, 'edit']);
  $app->delete('/device/{id}', [$deviceController, 'delete']);

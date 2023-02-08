@@ -54,7 +54,6 @@ class Device extends BaseTableDefaults
         return $this->brand;
     }
 
-
     public function getModel(): string
     {
         return $this->model;

@@ -32,7 +32,7 @@ class DeviceController
         $this->deviceService = $deviceService;
     }
 
-    public function index(Request $request, Response $response)
+    public function index(Request $request, Response $response): Response
     {
         $devices = $this->deviceService->getDevices();
         $dtoDevices = [];
@@ -44,6 +44,14 @@ class DeviceController
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    public function get(Request $request, Response $response, $args): Response
+    {
+        $device = $this->deviceService->getDeviceById($args['id']);
+        $response->getBody()->write(json_encode(deviceToJson($device)));
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+
     public function create(Request $request, Response $response): Response
     {
         $requestBody = json_decode($request->getBody()->getContents(), true);
@@ -54,7 +62,6 @@ class DeviceController
         $is_new = $requestBody['is_new'];
 
         $newDevice = $this->deviceService->createDevice($brand, $model, $os, $release_date, $is_new);
-
         $response->getBody()->write(json_encode(deviceToJson($newDevice)));
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -62,16 +69,14 @@ class DeviceController
     public function edit(Request $request, Response $response, $args): Response
     {
         $requestBody = json_decode($request->getBody()->getContents(), true);
-
-        $device = $this->deviceService->getDeviceById($args['id']);
-        $device->setModelName($requestBody['model']);
+        $device = $this->deviceService->editModelName($args['id'],  $requestBody['model']);
         $response->getBody()->write(json_encode(deviceToJson($device)));
         return $response->withHeader('Content-Type', 'application/json');
+
     }
     public function delete(Request $request, Response $response, $args): Response
     {
-        $device = $this->deviceService->getDeviceById($args['id']);
-        $this->deviceService->deleteDevice($device->getId());
+        $this->deviceService->deleteDevice($args['id']);
         $response->withStatus(200);
         return $response;
     }
