@@ -9,11 +9,12 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity, Table(name: 'devices')]
-class Device
+class Device extends BaseTableDefaults
 {
 
     public function __construct(string $brand, $model, $os, $release_date, bool $is_new)
     {
+        parent::__construct();
         $this->brand = $brand;
         $this->model = $model;
         $this->os = $os;
@@ -33,7 +34,7 @@ class Device
     private string $os;
     #[Column(type:'boolean', nullable:true)]
     private bool $is_new = false;
-    #[Column(type:'datetime', nullable:true, columnDefinition:"DATETIME DEFAULT CURRENT_TIMESTAMP" )]
+    #[Column(type:'string', nullable:true)]
     private datetime $received_datatime;
 
 

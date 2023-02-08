@@ -29,6 +29,7 @@ class DeviceRepository
     {
         $device = $this->db->find(Device::class, $id);
         $device->setModelName($model);
+        $device->update_datetime();
         $this->db->flush();
         return $this->db->find(Device::class, $device->getId());
 

@@ -10,6 +10,7 @@
         "php-di/slim-bridge": "^3.3",
         "php-di/php-di": "^7.0",
         "illuminate/collections": "^9.51",
-        "httpsoft/http-response": "^1.0"
+        "httpsoft/http-response": "^1.0",
+      "ext-pdo": "*"
     }
 }
