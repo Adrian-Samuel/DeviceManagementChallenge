@@ -6,17 +6,16 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Slim\Logger;
-use Psr\Container\ContainerInterface;
-use Psr\Container;
+use Exception;
 
-const PATHS = [__DIR__ . '/src/Domain'];
+const PATHS = [__DIR__ . '/src/Domain/Entities'];
 
 class dbSetup
 {
-    protected ContainerInterface $container;
     protected Logger $log;
-    public function __construct(ContainerInterface $container, Logger $logger){
-        $this->container = $container;
+    protected array $settings;
+    public function __construct(array $settings, Logger $logger){
+        $this->settings = $settings;
         $this->log = $logger;
     }
 
@@ -31,13 +30,14 @@ class dbSetup
     {
         $connectParams = [];
         try {
-            $connectParams = $this->getDatabaseConfig($this->container->get('settings')->connection);
-        } catch (Container\ContainerExceptionInterface $e) {
+            $connectParams = $this->getDatabaseConfig($this->settings->connection);
+        } catch (Exception $e) {
             $this->log->error($e);
             dd($e);
         }
 
         $config =  ORMSetup::createAttributeMetadataConfiguration(PATHS, $isProduction);
-        return DriverManager::getConnection($connectParams, $config);
+        $connection =  DriverManager::getConnection($connectParams, $config);
+        return new EntityManager($connection, $config);
     }
 }
