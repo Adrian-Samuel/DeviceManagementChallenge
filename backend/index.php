@@ -5,10 +5,9 @@ use App\Domain\Repositories\DeviceRepository;
 use App\Services\DeviceService;
 use App\Controllers\DeviceController;
 use Slim\Logger;
-use ORM\Configure\dbSetup;
+use db\Configure\dbSetup;
 
  require __DIR__ . '/vendor/autoload.php';
- require 'src/Infrastructure/Database/Connection.php';
 
  $config = require './settings.php';
  $logger = new Logger();

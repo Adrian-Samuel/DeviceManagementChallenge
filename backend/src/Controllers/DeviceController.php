@@ -25,7 +25,7 @@ class DeviceController
         return $response;
     }
 
-    public function create(Request $request, Response $response, $args)
+    public function create(Request $request, Response $response, $args): Response
     {
         $requestBody = json_decode($request->getBody()->getContents(), true);
         $brand = $requestBody['brand'];
@@ -41,7 +41,7 @@ class DeviceController
         return $response;
     }
 
-    public function edit(Request $request, Response $response, $args)
+    public function edit(Request $request, Response $response, $args): Response
     {
         $requestBody = json_decode($request->getBody()->getContents(), true);
         $id = $requestBody['id'];
@@ -52,7 +52,7 @@ class DeviceController
         $response->withStatus(200);
         return $response;
     }
-    public function delete(Request $request, Response $response, $args)
+    public function delete(Request $request, Response $response, $args): Response
     {
        $requestBody = json_decode($request->getBody()->getContents(), true);
        $id = $requestBody['id'];

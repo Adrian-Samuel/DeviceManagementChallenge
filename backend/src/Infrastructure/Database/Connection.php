@@ -1,6 +1,6 @@
 <?php
 
-namespace ORM\Configure;
+namespace db\Configure;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
