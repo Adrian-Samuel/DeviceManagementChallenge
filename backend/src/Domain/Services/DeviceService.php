@@ -10,7 +10,7 @@ class DeviceService
 
     public function __construct(DeviceRepository $deviceRepository)
     {
-        $this->$deviceRepository = $deviceRepository;
+        $this->deviceRepository = $deviceRepository;
     }
 
     public function createDevice(string $brand, $model, $os, $release_date, bool $is_new)

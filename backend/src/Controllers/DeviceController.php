@@ -17,6 +17,7 @@ class DeviceController
     public function index(Request $request, Response $response, $args)
     {
         $devices = $this->deviceService->getDevices();
+        print_r($devices);
         $response->getBody()->write(json_encode($devices));
         $response->withHeader('Content-Type', 'application/json');
         $response->withStatus(200);

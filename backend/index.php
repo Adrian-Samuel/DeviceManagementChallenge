@@ -6,11 +6,16 @@ use App\Services\DeviceService;
 use App\Controllers\DeviceController;
 use Slim\Logger;
 use \App\Database\DBSetup;
-const PATHS = [__DIR__ . '/src/Domain/Entities'];
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/src/Database/Connection.php';
+require_once __DIR__ . '/src/Domain/Repositories/DeviceRepository.php';
+require_once __DIR__ . '/src/Domain/Services/DeviceService.php';
+require_once __DIR__ . '/src/Controllers/DeviceController.php';
+
 
  $config = include './settings.php';
+
  $logger = new Logger();
  $entityManager = new DBSetup($config['settings']['doctrine']['connection'], $logger);
  $db = $entityManager->getEntityManager(false);
@@ -20,9 +25,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 
  $app = AppFactory::create();
 
- $app->get('/', [$deviceController::class, 'index']);
- $app->post('/', [$deviceController::class, 'create']);
- $app->put('/', [$deviceController::class, 'edit']);
- $app->delete('/', [$deviceController::class, 'delete']);
+ $app->get('/', [$deviceController, 'index']);
+ $app->post('/', [$deviceController, 'create']);
+ $app->put('/', [$deviceController, 'edit']);
+ $app->delete('/', [$deviceController, 'delete']);
 
  $app->run();

@@ -2,8 +2,12 @@
 
 namespace App\Domain\Repositories;
 
+require_once __DIR__ . '/../Entities/Device.php';
+
 use App\Domain\Entities\Device;
 use Doctrine\ORM\EntityManager;
+
+
 
 class DeviceRepository
 {
@@ -15,7 +19,8 @@ class DeviceRepository
     }
     public function findAll()
     {
-       return  $this->db->createQuery('SELECT * FROM Device devices')->getResult();
+       return $this->db->createQueryBuilder()->select('d')->from(Device::class, 'd')->getQuery()->getResult();
+
     }
 
     public function add(string $brand, $model, $os, $release_date, bool $is_new): Device

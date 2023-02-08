@@ -30,10 +30,9 @@ class DBSetup
             $connectParams = $this->getDatabaseConfig($this->settings);
         } catch (Exception $e) {
             $this->log->error($e);
-            dd($e);
         }
-        print_r($connectParams);
-        $config =  ORMSetup::createAttributeMetadataConfiguration(PATHS, $isProduction);
+
+        $config = ORMSetup::createAttributeMetadataConfiguration(PATHS, $isProduction);
         $connection =  DriverManager::getConnection($connectParams, $config);
         return new EntityManager($connection, $config);
     }

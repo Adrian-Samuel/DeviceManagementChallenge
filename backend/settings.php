@@ -37,7 +37,7 @@ return [
             'connection' => [
                 'driver' => 'pdo_pgsql',
                 'host' => 'localhost',
-                'port' => 3306,
+                'port' => 5432,
                 'dbname' => $env['DATABASE_NAME'],
                 'user' => $env['DATABASE_USER'],
                 'password' => $env['DATABASE_PASSWORD'],

@@ -7,14 +7,14 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use DateTime;
 
-#[Entity, Table(name: 'devices')]
-class Device extends BaseTableDefaults
+#[Entity('device'), Table(name: 'devices')]
+class Device
 {
 
     public function __construct(string $brand, $model, $os, $release_date, bool $is_new)
     {
-        parent::__construct();
         $this->brand = $brand;
         $this->model = $model;
         $this->os = $os;
@@ -29,13 +29,13 @@ class Device extends BaseTableDefaults
     #[Column(type:'string')]
     private string $brand;
     #[Column(type:'string', nullable:true)]
-    private string $release_date;
+    private ?string $release_date;
     #[Column(type:'string', nullable:true)]
-    private string $os;
+    private ?string $os;
     #[Column(type:'boolean', nullable:true)]
     private bool $is_new = false;
-    #[Column(type:'string', nullable:true)]
-    private datetime $received_datatime;
+    #[Column(type:'datetime', nullable:true)]
+    private DateTime $received_datatime;
 
 
     public function getId(): string {
