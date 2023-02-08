@@ -8,7 +8,9 @@ CREATE TABLE devices (
 	release_date varchar NULL,
 	os varchar NULL,
 	is_new bool null default false,
-	received_datatime date null default NOW()
+	received_datatime date null default NOW(),
+    created_datetime timestamp default NOW(),
+    update_datetime timestamp default NOW()
 );
 
 INSERT INTO devices VALUES('7f46c158-c2de-494d-b414-6219ac269384','Amazon Fire Phone','Amazon','2014/07','Android 4.2.2 Jelly Bean');

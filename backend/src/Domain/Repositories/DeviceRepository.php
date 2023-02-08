@@ -19,8 +19,15 @@ class DeviceRepository
     }
     public function findAll()
     {
-       return $this->db->createQueryBuilder()->select('d')->from(Device::class, 'd')->getQuery()->getResult();
+       return $this->db
+           ->createQueryBuilder()
+           ->select('d')
+           ->from(Device::class, 'd')->getQuery()->getResult();
+    }
 
+    public function findById(string $id): Device
+    {
+        return $this->db->find(Device::class, $id);
     }
 
     public function add(string $brand, $model, $os, $release_date, bool $is_new): Device

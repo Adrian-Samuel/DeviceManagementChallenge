@@ -34,5 +34,9 @@ class DeviceService
         return $this->deviceRepository->findAll();
     }
 
+    public function getDeviceById(string $id){
+        return $this->deviceRepository->findById($id);
+    }
+
 
 }

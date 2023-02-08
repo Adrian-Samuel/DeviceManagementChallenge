@@ -2,6 +2,8 @@
 
 namespace App\Domain\Entities;
 
+require_once __DIR__ . '/Default.php';
+
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -10,7 +12,7 @@ use Doctrine\ORM\Mapping\Table;
 use DateTime;
 
 #[Entity('device'), Table(name: 'devices')]
-class Device
+class Device extends BaseTableDefaults
 {
 
     public function __construct(string $brand, $model, $os, $release_date, bool $is_new)
@@ -23,26 +25,69 @@ class Device
     }
 
     #[Id, Column(type: 'string', unique: true), GeneratedValue(strategy: 'AUTO')]
-    private string $id;
+    protected string $id;
     #[Column(type:'string')]
-    private string $model;
+    protected string $model;
     #[Column(type:'string')]
-    private string $brand;
+    public string $brand;
     #[Column(type:'string', nullable:true)]
-    private ?string $release_date;
+    protected string $release_date;
     #[Column(type:'string', nullable:true)]
-    private ?string $os;
+    protected string $os;
     #[Column(type:'boolean', nullable:true)]
-    private bool $is_new = false;
+    protected bool $is_new = false;
     #[Column(type:'datetime', nullable:true)]
-    private DateTime $received_datatime;
+    public DateTime $received_datatime;
 
+
+    public function setModelName(string $model): void
+    {
+        $this->model = $model;
+    }
 
     public function getId(): string {
         return $this->id;
     }
-    public function setModelName(string $model): void
+
+    public function getBrand(): string
     {
-        $this->model = $model;
+        return $this->brand;
+    }
+
+
+    public function getModel(): string
+    {
+        return $this->model;
+    }
+
+    public function getOs(): string
+    {
+        return $this->os ?? '';
+    }
+
+
+    public function getIsNew(): bool
+    {
+        return $this->is_new;
+    }
+
+    public function getCreatedDatetime(): DateTime
+    {
+        return $this->created_datetime;
+    }
+
+    public function getReceivedDatatime(): DateTime
+    {
+        return $this->received_datatime;
+    }
+
+    public function getReleaseDate(): string
+    {
+        return $this->release_date ?? '';
+    }
+
+    public function getUpdateDatetime(): DateTime
+    {
+        return $this->update_datetime;
     }
 }
