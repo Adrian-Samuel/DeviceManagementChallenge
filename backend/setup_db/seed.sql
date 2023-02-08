@@ -1,5 +1,7 @@
-
+DROP SEQUENCE devices_id_seq;
 DROP TABLE IF EXISTS devices;
+
+CREATE SEQUENCE devices_id_seq;
 
 CREATE TABLE devices (
     id varchar unique,

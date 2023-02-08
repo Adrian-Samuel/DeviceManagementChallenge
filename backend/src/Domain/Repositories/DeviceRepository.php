@@ -33,10 +33,9 @@ class DeviceRepository
     public function add(string $brand, $model, $os, $release_date, bool $is_new): Device
     {
         $device = new Device($brand, $model, $os, $release_date, $is_new);
-        $query = $this->db->getRepository(Device::class);
-        $query->ins
         $this->db->persist($device);
-        return $this->db->findById($device->getId());
+        $this->db->flush();
+        return $this->findById($device->getId());
     }
 
     public function edit(string $id, $model): Device
@@ -44,7 +43,7 @@ class DeviceRepository
 
         $device = $this->db->find(Device::class, $id);
         $device->setModelName($model);
-        $device->update_datetime();
+        $device->setUpdateDatetime();
 
         $query = $this->db->createQueryBuilder();
         $query->update(Device::class, 'd')

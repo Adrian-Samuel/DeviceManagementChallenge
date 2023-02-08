@@ -8,7 +8,8 @@
         "illuminate/collections": "^9.51",
       "ext-pdo": "*",
         "doctrine/common": "^3.4",
-        "doctrine/annotations": "^2.0"
+        "doctrine/annotations": "^2.0",
+        "ramsey/uuid": "^4.7"
     },
     "autoload": {
         "psr-4": {

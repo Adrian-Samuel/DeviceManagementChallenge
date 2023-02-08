@@ -6,9 +6,9 @@ require_once __DIR__ . '/Default.php';
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use Ramsey\Uuid\Uuid;
 use DateTime;
 
 #[Entity('device'), Table(name: 'devices')]
@@ -17,6 +17,8 @@ class Device extends BaseTableDefaults
 
     public function __construct(string $brand, $model, $os, $release_date, bool $is_new)
     {
+        parent::__construct(new DateTime());
+        $this->id = Uuid::uuid4()->toString();
         $this->brand = $brand;
         $this->model = $model;
         $this->os = $os;
@@ -24,7 +26,7 @@ class Device extends BaseTableDefaults
         $this->is_new = $is_new;
     }
 
-    #[Id, Column(type: 'string', unique: true), GeneratedValue(strategy: 'AUTO')]
+    #[Id, Column(type: 'string', unique: true)]
     protected string $id;
     #[Column(type:'string')]
     protected string $model;
@@ -77,7 +79,7 @@ class Device extends BaseTableDefaults
 
     public function getReceivedDatatime(): DateTime
     {
-        return $this->received_datatime;
+        return $this->received_datatime ?? new DateTime();
     }
 
     public function getReleaseDate(): string
