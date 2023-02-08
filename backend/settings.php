@@ -6,6 +6,9 @@ const APP_ROOT = __DIR__;
 $dotenv = Dotenv::createImmutable(APP_ROOT);
 $dotenv->load();
 
+$env = array_filter($_ENV, function ($value) {
+    return !empty($value);
+});
 
 return [
     'settings' => [
@@ -32,12 +35,12 @@ return [
             // Refer to the Doctrine documentation to see the full list
             // of valid parameters: https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/configuration.html
             'connection' => [
-                'driver' => 'pgsql',
+                'driver' => 'pdo_pgsql',
                 'host' => 'localhost',
                 'port' => 3306,
-                'dbname' => $_ENV('DATABASE_NAME'),
-                'user' => $_ENV('DATABASE_USER'),
-                'password' => $_ENV('DATABASE_PASSWORD'),
+                'dbname' => $env['DATABASE_NAME'],
+                'user' => $env['DATABASE_USER'],
+                'password' => $env['DATABASE_PASSWORD'],
                 'charset' => 'utf-8'
             ]
         ]

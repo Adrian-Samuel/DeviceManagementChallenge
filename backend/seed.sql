@@ -1,5 +1,4 @@
 
-CREATE DATABASE IF EXISTS tympa;
 DROP TABLE IF EXISTS devices;
 
 CREATE TABLE devices (

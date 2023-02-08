@@ -1,16 +1,15 @@
 <?php
 
-namespace db\Configure;
+namespace App\Database;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Slim\Logger;
-use Exception;
 
 const PATHS = [__DIR__ . '/src/Domain/Entities'];
 
-class dbSetup
+class DBSetup
 {
     protected Logger $log;
     protected array $settings;
@@ -21,21 +20,19 @@ class dbSetup
 
     private function getDatabaseConfig(array $list): array
     {
-        return collect($list)->filter(function($value, $key){
-           if($key != 'charset') return;
-        })->toArray();
+        return array_diff($list, ['charset']);
     }
 
     public function getEntityManager(bool $isProduction): EntityManager
     {
         $connectParams = [];
         try {
-            $connectParams = $this->getDatabaseConfig($this->settings->connection);
+            $connectParams = $this->getDatabaseConfig($this->settings);
         } catch (Exception $e) {
             $this->log->error($e);
             dd($e);
         }
-
+        print_r($connectParams);
         $config =  ORMSetup::createAttributeMetadataConfiguration(PATHS, $isProduction);
         $connection =  DriverManager::getConnection($connectParams, $config);
         return new EntityManager($connection, $config);

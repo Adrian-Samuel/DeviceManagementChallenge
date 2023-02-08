@@ -3,9 +3,10 @@
 namespace App\Domain\Entities;
 
 use Doctrine\ORM\Mapping\Column;
+use DateTime;
 abstract class BaseTableDefaults
 {
-    public function __construct(DateTime $created_datetime)
+    public function __construct()
     {
         $this->created_datetime = new DateTime();
         $this->update_datetime = new DateTime();
