@@ -6,25 +6,90 @@
           Mobile Device Table
         </h1>
       </v-col>
-     
-  
-  <v-data-table
-    v-model:items-per-page="itemsPerPage"
-    :headers="headers"
-    :items="desserts"
-    item-value="name"
-    class="elevation-1"
-  ></v-data-table>
-    </v-row>
+      <v-card>
+        <v-card-title>
+          Mobiles
+          <v-spacer></v-spacer>
+          <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+          ></v-text-field>
+        </v-card-title>
+      </v-card>
+      <v-data-table
+      v-model:sort-by="sortBy"
+        v-model:items-per-page="itemsPerPage"
+        :search="search"
+        :headers="headers"
+        :items="mobileData"
+        item-value="name"
+        class="elevation-1"
+  >
+    <template v-slot:item="{item}">
+      <td> {{ item.brand }}</td>
+      <td> {{ item.model }}</td>
+      <td> {{ item.os }}</td>
+      <td> {{ item.release_date }}</td>
+      <td>
+        <v-btn color="blue" @click="handleEdit(item)">
+          <v-icon icon="mdi-pencil" >
+            <span>Edit</span>
+          </v-icon>
+        </v-btn>
+      </td>
+      <td>
+          <v-btn color="red" @click="handleDelete">
+            <v-icon icon="mdi-delete" >
+              <span>Delete</span>
+            </v-icon>
+          </v-btn>
+      </td>
+    </template>
+    </v-data-table></v-row>
   </v-container>
 </template>
 
 <script>
+import DeviceService from '../../api/resources/DeviceService';
+import { ref, onMounted } from 'vue';
 export default {
   name: 'MobileTable',
+  setup(){
+    const mobileData = ref([]);
+    const headers  =[
+      {}
+    ]
+    const search = ref('');
+    const sortBy = [{key: 'os', order:'asc'}]
+    const itemsPerPage = 20;
+    const loading = ref(true)
 
-  data: () => ({
-    
-  }),
+    onMounted(() => {
+        DeviceService.index().then(response => {
+          mobileData.value = response;
+          loading.value = false;
+        })
+    })
+
+
+    const handleDelete = () =>{}
+    const handleCreate = () =>{ }
+    const handleEdit = () => {}
+    return {
+      mobileData,
+      headers,
+      loading,
+      itemsPerPage,
+      search,
+      sortBy,
+      handleCreate,
+      handleEdit,
+      handleDelete
+    }
+  },
+
 }
 </script>

@@ -11,13 +11,8 @@ import MobileTable from './components/MobileTable.vue'
 
 export default {
   name: 'App',
-
   components: {
     MobileTable,
   },
-
-  data: () => ({
-    //
-  }),
 }
 </script>
