@@ -4,6 +4,7 @@ namespace App\src\Domain\Entities;
 
 use Doctrine\ORM\Mapping\Column;
 use DateTime;
+
 abstract class BaseTableDefaults
 {
     public function __construct(DateTime $currenTime)
@@ -11,9 +12,10 @@ abstract class BaseTableDefaults
         $this->created_datetime = $currenTime;
         $this->update_datetime = $currenTime;
     }
-    #[Column(type:'datetime', nullable:true)]
+
+    #[Column(type: 'datetime', nullable: true)]
     protected DateTime $created_datetime;
-    #[Column(type:'datetime', nullable:true)]
+    #[Column(type: 'datetime', nullable: true)]
     protected DateTime $update_datetime;
 
     public function setUpdateDatetime(): void

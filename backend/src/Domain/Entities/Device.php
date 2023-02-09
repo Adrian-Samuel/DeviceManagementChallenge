@@ -28,17 +28,17 @@ class Device extends BaseTableDefaults
 
     #[Id, Column(type: 'string', unique: true)]
     protected string $id;
-    #[Column(type:'string')]
+    #[Column(type: 'string')]
     protected string $model;
-    #[Column(type:'string')]
+    #[Column(type: 'string')]
     public string $brand;
-    #[Column(type:'string', nullable:true)]
+    #[Column(type: 'string', nullable: true)]
     protected string $release_date;
-    #[Column(type:'string', nullable:true)]
+    #[Column(type: 'string', nullable: true)]
     protected string $os;
-    #[Column(type:'boolean', nullable:true)]
+    #[Column(type: 'boolean', nullable: true)]
     protected bool $is_new;
-    #[Column(type:'datetime', nullable:true)]
+    #[Column(type: 'datetime', nullable: true)]
     public DateTime $received_datatime;
 
 
@@ -47,7 +47,8 @@ class Device extends BaseTableDefaults
         $this->model = $model;
     }
 
-    public function getId(): string {
+    public function getId(): string
+    {
         return $this->id;
     }
 

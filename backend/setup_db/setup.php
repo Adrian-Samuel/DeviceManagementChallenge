@@ -4,8 +4,9 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/seed.sql';
 
 use Dotenv\Dotenv;
+
 const APP_ROOT = __DIR__;
-$dotenv = Dotenv::createImmutable( APP_ROOT . '/..');
+$dotenv = Dotenv::createImmutable(APP_ROOT . '/..');
 $dotenv->load();
 
 $env = array_filter($_ENV, function ($value) {

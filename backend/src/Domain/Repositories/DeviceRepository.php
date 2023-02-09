@@ -34,7 +34,7 @@ class DeviceRepository
     {
         try {
             $result = $this->db->find(Device::class, $id);
-            if($result == null){
+            if ($result == null) {
                 return new ResourceNotFoundException("Resource with id: " . $id . ' not found', 404);
             }
             return $result;
@@ -74,7 +74,7 @@ class DeviceRepository
             ->set('d.update_datetime', ':update_datetime')
             ->where('d.id = :id')
             ->setParameter(':model', $device->getModel())
-            ->setParameter(':update_datetime', $device->getUpdateDatetime() )
+            ->setParameter(':update_datetime', $device->getUpdateDatetime())
             ->setParameter(':id', $id)
             ->getQuery()
             ->execute();
@@ -85,7 +85,7 @@ class DeviceRepository
     public function delete(string $id)
     {
         $device = $this->findById($id);
-        if($device instanceof Device){
+        if ($device instanceof Device) {
             return $device;
         }
 

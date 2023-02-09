@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Domain\DTOs;
+
 use DateTime;
 
 class DeviceDTO
@@ -15,7 +16,8 @@ class DeviceDTO
 
     public string $created_datetime;
     public string $update_datetime;
-    public function __construct(string $id, $model, $os, $brand, $release_date,DateTime $received_datatime, bool $is_new, DateTime $created_datetime, $update_datetime)
+
+    public function __construct(string $id, $model, $os, $brand, $release_date, DateTime $received_datatime, bool $is_new, DateTime $created_datetime, $update_datetime)
     {
         $this->id = $id;
         $this->model = $model;

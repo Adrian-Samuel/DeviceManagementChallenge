@@ -14,12 +14,14 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class DeviceController
 {
     private DeviceService $deviceService;
+
     public function __construct(DeviceService $deviceService)
     {
         $this->deviceService = $deviceService;
     }
 
-    private function deviceToJson(Device $device): DeviceDTO {
+    private function deviceToJson(Device $device): DeviceDTO
+    {
         return new DeviceDTO(
             $device->getId(),
             $device->getModel(),
@@ -38,8 +40,7 @@ class DeviceController
     {
         $devices = $this->deviceService->getDevices();
         $dtoDevices = [];
-        foreach ($devices as $device)
-        {
+        foreach ($devices as $device) {
             $dtoDevices[] = $this->deviceToJson($device);
         }
         $response->getBody()->write(json_encode($dtoDevices));
@@ -52,7 +53,7 @@ class DeviceController
     public function get(Request $request, Response $response, $args): Response
     {
         $device = $this->deviceService->getDeviceById($args['id']);
-        if(!($device instanceof Device)){
+        if (!($device instanceof Device)) {
             $response->getBody()->write(json_encode(["error" => $device->getMessage() . ' not found']));
         } else {
             $response->getBody()->write(json_encode($this->deviceToJson($device)));
@@ -78,11 +79,12 @@ class DeviceController
     public function edit(Request $request, Response $response, $args): Response
     {
         $requestBody = json_decode($request->getBody()->getContents(), true);
-        $device = $this->deviceService->editModelName($args['id'],  $requestBody['model']);
+        $device = $this->deviceService->editModelName($args['id'], $requestBody['model']);
         $response->getBody()->write(json_encode($this->deviceToJson($device)));
         return $response->withHeader('Content-Type', 'application/json');
 
     }
+
     public function delete(Request $request, Response $response, $args): Response
     {
         $this->deviceService->deleteDevice($args['id']);

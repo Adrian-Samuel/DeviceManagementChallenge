@@ -38,7 +38,8 @@ class DeviceService
     /**
      * @throws ResourceNotFoundException
      */
-    public function getDeviceById(string $id){
+    public function getDeviceById(string $id)
+    {
         return $this->deviceRepository->findById($id);
     }
 

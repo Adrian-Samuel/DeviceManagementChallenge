@@ -1,19 +1,22 @@
 <?php
 
-namespace App\Database;
+namespace App\src\Database;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
+use Exception;
 use Slim\Logger;
 
 const PATHS = [__DIR__ . '/src/Domain/Entities'];
 
-class DBSetup
+class Database
 {
     protected Logger $log;
     protected array $settings;
-    public function __construct(array $settings, Logger $logger){
+
+    public function __construct(array $settings, Logger $logger)
+    {
         $this->settings = $settings;
         $this->log = $logger;
     }
@@ -33,7 +36,7 @@ class DBSetup
         }
 
         $config = ORMSetup::createAttributeMetadataConfiguration(PATHS, $isProduction);
-        $connection =  DriverManager::getConnection($connectParams, $config);
+        $connection = DriverManager::getConnection($connectParams, $config);
         return new EntityManager($connection, $config);
     }
 }

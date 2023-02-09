@@ -11,10 +11,12 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response as HttpResponse;
 
-class DeviceIDValidationMiddleware implements MiddlewareInterface
+class DeviceIDValidator implements MiddlewareInterface
 {
     private DeviceService $deviceService;
-    public function __construct(DeviceService $deviceService){
+
+    public function __construct(DeviceService $deviceService)
+    {
         $this->deviceService = $deviceService;
     }
 
@@ -23,18 +25,19 @@ class DeviceIDValidationMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $deviceId = explode("/",$request->getUri()->getPath())[2];
+        $deviceId = explode("/", $request->getUri()->getPath())[2];
 
         $response = $this->deviceService->getDeviceById($deviceId);
-        if(!$this->isDevice($response)){
+        if (!$this->isDevice($response)) {
             $errorResponse = new HttpResponse();
             $errorResponse->getBody()->write(json_encode(['error' => 'record with id: ' . $deviceId . ' not found']));
-        return $errorResponse->withStatus(404);
+            return $errorResponse->withStatus(404);
         }
         return $handler->handle($request);
     }
 
-    private function isDevice($response): bool {
+    private function isDevice($response): bool
+    {
         return $response instanceof Device;
     }
 
