@@ -4,6 +4,7 @@ use Slim\Factory\AppFactory;
 use App\Domain\Repositories\DeviceRepository;
 use App\Services\DeviceService;
 use App\Controllers\DeviceController;
+use App\Middlewares\DeviceValidationMiddleware;
 use Slim\Logger;
 use \App\Database\DBSetup;
 
@@ -17,7 +18,7 @@ require_once __DIR__ . '/src/Database/Connection.php';
 require_once __DIR__ . '/src/Domain/Repositories/DeviceRepository.php';
 require_once __DIR__ . '/src/Domain/Services/DeviceService.php';
 require_once __DIR__ . '/src/Controllers/DeviceController.php';
-
+require_once __DIR__ . '/src/Middlewares/DeviceValidator.php';
 
  $config = include './settings.php';
 
@@ -32,7 +33,7 @@ require_once __DIR__ . '/src/Controllers/DeviceController.php';
 
  $app->get('/devices', [$deviceController, 'index']);
  $app->get('/device/{id}', [$deviceController, 'get']);
- $app->post('/device', [$deviceController, 'create']);
+ $app->post('/device', [$deviceController, 'create'])->add(new DeviceValidationMiddleware());
  $app->put('/device/{id}', [$deviceController, 'edit']);
  $app->delete('/device/{id}', [$deviceController, 'delete']);
 

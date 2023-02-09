@@ -7,8 +7,6 @@ require_once __DIR__ . '/../Entities/Device.php';
 use App\Domain\Entities\Device;
 use Doctrine\ORM\EntityManager;
 
-
-
 class DeviceRepository
 {
     private EntityManager $db;
