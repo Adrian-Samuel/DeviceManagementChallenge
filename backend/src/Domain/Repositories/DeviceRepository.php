@@ -46,7 +46,7 @@ class DeviceRepository
     /**
      * @throws ResourceNotFoundException
      */
-    public function add(string $brand, $model, $os, $release_date, bool $is_new): Device
+    public function add(string $brand, $model, $os, $release_date, $is_new): Device
     {
         $device = new Device($brand, $model, $os, $release_date, $is_new);
         try {

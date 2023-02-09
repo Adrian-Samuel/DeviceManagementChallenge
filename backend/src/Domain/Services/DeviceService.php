@@ -14,7 +14,7 @@ class DeviceService
         $this->deviceRepository = $deviceRepository;
     }
 
-    public function createDevice(string $brand, $model, $os, $release_date, bool $is_new)
+    public function createDevice($brand, $model, $os, $release_date, $is_new)
     {
 
         return $this->deviceRepository->add($brand, $model, $os, $release_date, $is_new);;

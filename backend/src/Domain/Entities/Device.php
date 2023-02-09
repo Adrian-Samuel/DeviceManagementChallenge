@@ -15,15 +15,15 @@ use DateTime;
 class Device extends BaseTableDefaults
 {
 
-    public function __construct(string $brand, $model, $os, $release_date, bool $is_new)
+    public function __construct($brand, $model, $os, $release_date, $is_new)
     {
         parent::__construct(new DateTime());
         $this->id = Uuid::uuid4()->toString();
         $this->brand = $brand;
         $this->model = $model;
-        $this->os = $os;
-        $this->release_date = $release_date;
-        $this->is_new = $is_new;
+        $this->os = $os ?? $this->getOs();
+        $this->release_date = $release_date ?? $this->getReleaseDate();
+        $this->is_new = $is_new ?? $this->getIsNew();
     }
 
     #[Id, Column(type: 'string', unique: true)]
@@ -37,7 +37,7 @@ class Device extends BaseTableDefaults
     #[Column(type:'string', nullable:true)]
     protected string $os;
     #[Column(type:'boolean', nullable:true)]
-    protected bool $is_new = false;
+    protected bool $is_new;
     #[Column(type:'datetime', nullable:true)]
     public DateTime $received_datatime;
 
@@ -69,7 +69,7 @@ class Device extends BaseTableDefaults
 
     public function getIsNew(): bool
     {
-        return $this->is_new;
+        return $this->is_new ?? false;
     }
 
     public function getCreatedDatetime(): DateTime
@@ -84,7 +84,8 @@ class Device extends BaseTableDefaults
 
     public function getReleaseDate(): string
     {
-        return $this->release_date ?? '';
+        $date = new DateTime();
+        return $this->release_date ?? $date->format('Y-m');
     }
 
     public function getUpdateDatetime(): DateTime
