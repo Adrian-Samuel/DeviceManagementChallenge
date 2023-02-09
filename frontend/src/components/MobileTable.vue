@@ -10,7 +10,10 @@
         <v-card-title>
           Mobile Table
           <v-spacer>
-            <Dialog :dialogueStatus="addDialogueStatus" :registerDialogue="toggleAddDialog"></Dialog>
+            <Dialog
+              :dialogueStatus="addDialogueStatus"
+              :registerDialogue="toggleAddDialog"
+            ></Dialog>
           </v-spacer>
           <v-text-field
             v-model="search"
@@ -19,8 +22,7 @@
             single-line
             hide-details
           >
-  
-        </v-text-field>
+          </v-text-field>
           <v-data-table
             v-model:sort-by="sortBy"
             v-model:items-per-page="itemsPerPage"
@@ -29,26 +31,25 @@
             :items="filteredTableDataFields"
             class="elevation-1"
           >
-          <template v-slot:item="{ item }">
-            <tr> 
-            
-              <td> {{ item.columns.brand }} </td>
-              <td> {{ item.columns.model }} </td>
-              <td> {{ item.columns.os }} </td>
-              <td> {{ item.columns.release_date }} </td>
-              <td>  <v-btn 
-                color="primary"
-                  @click="toggleEditDialogue" 
-                >Edit </v-btn> </td>
-             
-              <td>  <v-btn 
-                color="red"
-                  @click="deleteMobileRecord(item.raw.id)" 
-                >Delete </v-btn> </td>
-           
-          </tr>
-</template> 
-         
+            <template v-slot:item="{ item }">
+              <tr>
+                <td>{{ item.columns.brand }}</td>
+                <td>{{ item.columns.model }}</td>
+                <td>{{ item.columns.os }}</td>
+                <td>{{ item.columns.release_date }}</td>
+                <td>
+                  <v-btn color="primary" @click="toggleEditDialogue"
+                    >Edit
+                  </v-btn>
+                </td>
+
+                <td>
+                  <v-btn color="red" @click="deleteMobileRecord(item.raw.id)"
+                    >Delete
+                  </v-btn>
+                </td>
+              </tr>
+            </template>
           </v-data-table>
         </v-card-title>
       </v-card>
@@ -65,7 +66,7 @@ export default {
   components: {
     Dialog,
   },
-  
+
   setup() {
     const mobileData = ref([]);
     const headers = [
@@ -113,41 +114,40 @@ export default {
       });
     });
 
-    const filteredTableDataFields = computed(() =>  mobileData.value.map(mobile => {
-      return {
-        id: mobile.id,
-        model: mobile.model, 
-        os: mobile.os,
-        brand: mobile.brand, 
-        release_date: mobile.release_date,
- 
-      }
-    }));
+    const filteredTableDataFields = computed(() =>
+      mobileData.value.map((mobile) => {
+        return {
+          id: mobile.id,
+          model: mobile.model,
+          os: mobile.os,
+          brand: mobile.brand,
+          release_date: mobile.release_date,
+        };
+      })
+    );
 
     const dialogue = ref({
-      addDialogue: false, 
+      addDialogue: false,
       editDialogue: false,
-    })
+    });
 
-
-    
-    const toggleEditDialog = () => dialogue.value.editDialogue = !dialogue.value.editDialogue;
+    const toggleEditDialog = () =>
+      (dialogue.value.editDialogue = !dialogue.value.editDialogue);
     const toggleAddDialog = () => {
-      dialogue.value.addDialogue = !dialogue.value.addDialogue
-    }
+      dialogue.value.addDialogue = !dialogue.value.addDialogue;
+    };
 
-    const addDialogueStatus = computed(() => dialogue.value.addDialogue )
-    const editDialogueStatus = computed(() => dialogue.value.editDialogue)
-
+    const addDialogueStatus = computed(() => dialogue.value.addDialogue);
+    const editDialogueStatus = computed(() => dialogue.value.editDialogue);
 
     const deleteMobileRecord = (id) => {
-      DeviceService.delete(id)
+      DeviceService.delete(id);
     };
     const createMobileRecord = (requestBody) => {
-      DeviceService.post(requestBody)
+      DeviceService.post(requestBody);
     };
     const editMobileRecord = (id, model) => {
-      DeviceService.put(model, id)
+      DeviceService.put(model, id);
     };
     return {
       filteredTableDataFields,
@@ -162,7 +162,7 @@ export default {
       toggleAddDialog,
       toggleEditDialog,
       addDialogueStatus,
-      editDialogueStatus
+      editDialogueStatus,
     };
   },
 };

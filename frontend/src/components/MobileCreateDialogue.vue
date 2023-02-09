@@ -1,53 +1,47 @@
 <template>
- 
- <v-dialog v-model="toggleStatus" width="700" max-height="500" >
-  <template v-slot:activator={toggle}>
-    <v-btn
-      color="green"
-      v-on:click=toggle
-    >
-    Register Mobile
-  </v-btn>
-  </template>
-      <v-card>
-        <form @submit.prevent="submit">
-          <v-text-field
-            v-model="brand.value.value"
-            :error-messages="brand.errorMessage.value"
-            label="Brand"
-          ></v-text-field>
+  <v-dialog v-model="toggleStatus" width="700" max-height="500">
+    <template v-slot:activator="{ toggle }">
+      <v-btn color="green" v-on:click="toggle"> Register Mobile </v-btn>
+    </template>
+    <v-card>
+      <form @submit.prevent="submit">
+        <v-text-field
+          v-model="brand.value.value"
+          :error-messages="brand.errorMessage.value"
+          label="Brand"
+        ></v-text-field>
 
-          <v-text-field
-            v-model="model.value.value"
-            :error-messages="model.errorMessage.value"
-            label="Model"
-          ></v-text-field>
+        <v-text-field
+          v-model="model.value.value"
+          :error-messages="model.errorMessage.value"
+          label="Model"
+        ></v-text-field>
 
-          <v-text-field
-            v-model="os.value.value"
-            :error-messages="email.errorMessage.value"
-            label="E-mail"
-          ></v-text-field>
+        <v-text-field
+          v-model="os.value.value"
+          :error-messages="email.errorMessage.value"
+          label="E-mail"
+        ></v-text-field>
 
-          <v-text-field
-            v-model="releaseDate.value.value"
-            :error-messages="releaseDate.errorMessage.value"
-            label="Release Date"
-          ></v-text-field>
+        <v-text-field
+          v-model="releaseDate.value.value"
+          :error-messages="releaseDate.errorMessage.value"
+          label="Release Date"
+        ></v-text-field>
 
-          <v-checkbox
-            v-model="isNew.value.value"
-            :error-messages="isNew.errorMessage.value"
-            value="1"
-            label="IsNew"
-            type="checkbox"
-          ></v-checkbox>
+        <v-checkbox
+          v-model="isNew.value.value"
+          :error-messages="isNew.errorMessage.value"
+          value="1"
+          label="IsNew"
+          type="checkbox"
+        ></v-checkbox>
 
-          <v-btn class="me-4" type="submit"> submit </v-btn>
-          <v-btn @click="toggle"> clear </v-btn>
-        </form>
-      </v-card>
-    </v-dialog>
+        <v-btn class="me-4" type="submit"> submit </v-btn>
+        <v-btn @click="toggle"> clear </v-btn>
+      </form>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -58,10 +52,10 @@ export default {
       required: true,
       type: Function,
     },
-    dialogueStatus:{
-      required: true, 
-      type: Boolean
-    }
+    dialogueStatus: {
+      required: true,
+      type: Boolean,
+    },
   },
   setup(props) {
     const { handleSubmit } = useForm({
@@ -89,8 +83,8 @@ export default {
     const model = useField("model");
     const releaseDate = useField("releaseDate");
     const isNew = useField("isNew");
-    const os = useField('os');
-    
+    const os = useField("os");
+
     return {
       brand,
       model,
