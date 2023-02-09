@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Entities;
+namespace App\src\Domain\Entities;
 
 require_once __DIR__ . '/Default.php';
 

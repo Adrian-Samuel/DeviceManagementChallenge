@@ -1,8 +1,8 @@
 DROP SEQUENCE devices_id_seq;
-DROP TABLE IF EXISTS devices;
-
+-- Allows use of Doctrine ORM methods
 CREATE SEQUENCE devices_id_seq;
 
+DROP TABLE IF EXISTS devices;
 CREATE TABLE devices (
     id varchar unique,
 	model varchar,

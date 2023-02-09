@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Middlewares;
+namespace App\src\Middlewares;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response as HttpResponse;
 
-class DeviceValidationMiddleware implements MiddlewareInterface
+class CreateDeviceValidationMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

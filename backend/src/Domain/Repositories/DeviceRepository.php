@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Domain\Repositories;
+namespace App\src\Domain\Repositories;
 
 require_once __DIR__ . '/../Entities/Device.php';
+require_once __DIR__ . '/../../Exceptions/Exceptions.php';
 
-use App\Domain\Entities\Device;
+use App\src\Domain\Entities\Device;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\ORMException;
+use App\src\Exceptions\ResourceNotFoundException;
 
 class DeviceRepository
 {
@@ -15,31 +18,53 @@ class DeviceRepository
     {
         $this->db = $db;
     }
+
     public function findAll()
     {
-       return $this->db
-           ->createQueryBuilder()
-           ->select('d')
-           ->from(Device::class, 'd')->getQuery()->getResult();
+        return $this->db
+            ->createQueryBuilder()
+            ->select('d')
+            ->from(Device::class, 'd')->getQuery()->getResult();
     }
 
-    public function findById(string $id): Device
+    /**
+     * @throws ResourceNotFoundException
+     */
+    public function findById(string $id)
     {
-        return $this->db->find(Device::class, $id);
+        try {
+            $result = $this->db->find(Device::class, $id);
+            if($result == null){
+                return new ResourceNotFoundException("Resource with id: " . $id . ' not found', 404);
+            }
+            return $result;
+        } catch (ORMException $e) {
+            throw new ResourceNotFoundException("Resource with id: " . $id . ' not found', 404);
+        }
     }
 
+    /**
+     * @throws ResourceNotFoundException
+     */
     public function add(string $brand, $model, $os, $release_date, bool $is_new): Device
     {
         $device = new Device($brand, $model, $os, $release_date, $is_new);
-        $this->db->persist($device);
+        try {
+            $this->db->persist($device);
+        } catch (ORMException $e) {
+            throw new ResourceNotFoundException("Resource not found", 404, $e);
+        }
         $this->db->flush();
         return $this->findById($device->getId());
     }
 
+    /**
+     * @throws ResourceNotFoundException
+     */
     public function edit(string $id, $model): Device
     {
 
-        $device = $this->db->find(Device::class, $id);
+        $device = $this->findById($id);
         $device->setModelName($model);
         $device->setUpdateDatetime();
 
@@ -53,12 +78,17 @@ class DeviceRepository
             ->setParameter(':id', $id)
             ->getQuery()
             ->execute();
-        return $this->db->find(Device::class, $device->getId());
+        return $this->findById($device->getId());
 
     }
 
-    public function delete(string $id): void
+    public function delete(string $id)
     {
+        $device = $this->findById($id);
+        if($device instanceof Device){
+            return $device;
+        }
+
         $this->db->createQueryBuilder()
             ->delete(Device::class, 'd')
             ->where('d.id = :id')

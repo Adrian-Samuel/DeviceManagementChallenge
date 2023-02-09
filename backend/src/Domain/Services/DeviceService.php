@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\src\Domain\Services;
 
-use App\Domain\Repositories\DeviceRepository;
+use App\src\Domain\Repositories\DeviceRepository;
+use App\src\Exceptions\ResourceNotFoundException;
 
 class DeviceService
 {
@@ -34,6 +35,9 @@ class DeviceService
         return $this->deviceRepository->findAll();
     }
 
+    /**
+     * @throws ResourceNotFoundException
+     */
     public function getDeviceById(string $id){
         return $this->deviceRepository->findById($id);
     }

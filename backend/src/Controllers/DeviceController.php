@@ -1,28 +1,15 @@
 <?php
 
-namespace App\Controllers;
+namespace App\src\Controllers;
 
 require __DIR__ . '/../Domain/DTOs/DeviceDTO.php';
 
-use App\Domain\Entities\Device;
-use App\Services\DeviceService;
+use App\src\Domain\Entities\Device;
+use App\src\Domain\Services\DeviceService;
 use App\Domain\DTOs\DeviceDTO;
+use App\src\Exceptions\ResourceNotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
-function deviceToJson(Device $device): DeviceDTO {
-    return new DeviceDTO(
-        $device->getId(),
-        $device->getModel(),
-        $device->getOs(),
-        $device->getBrand(),
-        $device->getReleaseDate(),
-        $device->getReceivedDatatime(),
-        $device->getIsNew(),
-        $device->getCreatedDatetime(),
-        $device->getUpdateDatetime()
-    );
-}
 
 class DeviceController
 {
@@ -32,22 +19,44 @@ class DeviceController
         $this->deviceService = $deviceService;
     }
 
+    private function deviceToJson(Device $device): DeviceDTO {
+        return new DeviceDTO(
+            $device->getId(),
+            $device->getModel(),
+            $device->getOs(),
+            $device->getBrand(),
+            $device->getReleaseDate(),
+            $device->getReceivedDatatime(),
+            $device->getIsNew(),
+            $device->getCreatedDatetime(),
+            $device->getUpdateDatetime()
+        );
+    }
+
+    // middleware?
     public function index(Request $request, Response $response): Response
     {
         $devices = $this->deviceService->getDevices();
         $dtoDevices = [];
         foreach ($devices as $device)
         {
-            $dtoDevices[] = deviceToJson($device);
+            $dtoDevices[] = $this->deviceToJson($device);
         }
         $response->getBody()->write(json_encode($dtoDevices));
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    /**
+     * @throws ResourceNotFoundException
+     */
     public function get(Request $request, Response $response, $args): Response
     {
         $device = $this->deviceService->getDeviceById($args['id']);
-        $response->getBody()->write(json_encode(deviceToJson($device)));
+        if(!($device instanceof Device)){
+            $response->getBody()->write(json_encode(["error" => $device->getMessage() . ' not found']));
+        } else {
+            $response->getBody()->write(json_encode($this->deviceToJson($device)));
+        }
         return $response->withHeader('Content-Type', 'application/json');
     }
 
@@ -62,7 +71,7 @@ class DeviceController
         $is_new = $requestBody['is_new'];
 
         $newDevice = $this->deviceService->createDevice($brand, $model, $os, $release_date, $is_new);
-        $response->getBody()->write(json_encode(deviceToJson($newDevice)));
+        $response->getBody()->write(json_encode($this->deviceToJson($newDevice)));
         return $response->withHeader('Content-Type', 'application/json');
     }
 
@@ -70,7 +79,7 @@ class DeviceController
     {
         $requestBody = json_decode($request->getBody()->getContents(), true);
         $device = $this->deviceService->editModelName($args['id'],  $requestBody['model']);
-        $response->getBody()->write(json_encode(deviceToJson($device)));
+        $response->getBody()->write(json_encode($this->deviceToJson($device)));
         return $response->withHeader('Content-Type', 'application/json');
 
     }
