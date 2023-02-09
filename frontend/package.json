@@ -7,7 +7,7 @@
     "build": "vite build",
     "lint": "vue-cli-service lint",
     "dev": "vite",
-    "format":"yarn prettier --write ."
+    "format": "yarn prettier --write ."
   },
   "dependencies": {
     "@mdi/font": "5.9.55",

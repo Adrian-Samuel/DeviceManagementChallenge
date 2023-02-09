@@ -1,18 +1,18 @@
 <template>
   <v-app>
     <v-main>
-      <MobileTable/>
+      <MobileTable />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import MobileTable from './components/MobileTable.vue'
+import MobileTable from "./components/MobileTable.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     MobileTable,
   },
-}
+};
 </script>
