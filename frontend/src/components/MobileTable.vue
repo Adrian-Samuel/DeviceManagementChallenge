@@ -10,7 +10,7 @@
         <v-card-title>
           Mobile Table
           <v-spacer>
-            <!-- <Dialog :toggleDialogue="toggleDialogue"></Dialog> -->
+            <Dialog :dialogueStatus="addDialogueStatus" :registerDialogue="toggleAddDialog"></Dialog>
           </v-spacer>
           <v-text-field
             v-model="search"
@@ -38,7 +38,7 @@
               <td> {{ item.columns.release_date }} </td>
               <td>  <v-btn 
                 color="primary"
-                  @click="TODOsomeKindOfModalToggle" 
+                  @click="toggleEditDialogue" 
                 >Edit </v-btn> </td>
              
               <td>  <v-btn 
@@ -58,12 +58,12 @@
 
 <script>
 import DeviceService from "../../api/resources/DeviceService";
-// import Dialog from "./MobileCreateDialogue.vue";
+import Dialog from "./MobileCreateDialogue.vue";
 import { ref, onMounted, computed } from "vue";
 export default {
   name: "MobileTable",
   components: {
-    // Dialog,
+    Dialog,
   },
   
   setup() {
@@ -123,8 +123,22 @@ export default {
  
       }
     }));
-    const dialogueBoxStatus = ref(false);
-    const toggleDialogue = () => !dialogueBoxStatus.value;
+
+    const dialogue = ref({
+      addDialogue: false, 
+      editDialogue: false,
+    })
+
+
+    
+    const toggleEditDialog = () => dialogue.value.editDialogue = !dialogue.value.editDialogue;
+    const toggleAddDialog = () => {
+      dialogue.value.addDialogue = !dialogue.value.addDialogue
+    }
+
+    const addDialogueStatus = computed(() => dialogue.value.addDialogue )
+    const editDialogueStatus = computed(() => dialogue.value.editDialogue)
+
 
     const deleteMobileRecord = (id) => {
       DeviceService.delete(id)
@@ -145,7 +159,10 @@ export default {
       createMobileRecord,
       editMobileRecord,
       deleteMobileRecord,
-      toggleDialogue,
+      toggleAddDialog,
+      toggleEditDialog,
+      addDialogueStatus,
+      editDialogueStatus
     };
   },
 };

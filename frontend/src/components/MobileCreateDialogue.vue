@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <v-dialog width="700" max-height="500" v-model="dialog">
-      <template v-slot:activator="{ props }">
-        <v-btn color="green" v-bind="props"> Register Mobile </v-btn>
-      </template>
+ 
+ <v-dialog v-model="toggleStatus" width="700" max-height="500" >
+  <template v-slot:activator={toggle}>
+    <v-btn
+      color="green"
+      v-on:click=toggle
+    >
+    Register Mobile
+  </v-btn>
+  </template>
       <v-card>
         <form @submit.prevent="submit">
           <v-text-field
@@ -39,33 +44,35 @@
           ></v-checkbox>
 
           <v-btn class="me-4" type="submit"> submit </v-btn>
-
           <v-btn @click="toggle"> clear </v-btn>
         </form>
       </v-card>
     </v-dialog>
-  </div>
 </template>
 
 <script>
 import { useField, useForm } from "vee-validate";
 export default {
   props: {
-    toggleDialogue: {
+    registerDialogue: {
       required: true,
       type: Function,
     },
+    dialogueStatus:{
+      required: true, 
+      type: Boolean
+    }
   },
   setup(props) {
     const { handleSubmit } = useForm({
       validationSchema: {
         brand(value) {
-          if (value.length < 1) {
+          if (value?.length < 1) {
             return "Brand must be defined";
           }
         },
         model(value) {
-          if (value.length < 1) {
+          if (value?.length < 1) {
             return "Model must be defined";
           }
         },
@@ -82,14 +89,17 @@ export default {
     const model = useField("model");
     const releaseDate = useField("releaseDate");
     const isNew = useField("isNew");
-
+    const os = useField('os');
+    
     return {
       brand,
       model,
       releaseDate,
       isNew,
+      os,
       handleSubmit,
       toggle: props.toggleDialogue,
+      toggleStatus: props.dialogueStatus,
     };
   },
 };
