@@ -2,7 +2,9 @@
 
 namespace App\src\Exceptions;
 
+
 use Exception;
+use Throwable;
 
 class ResourceNotFoundException extends Exception
 {
