@@ -5,107 +5,138 @@
         <h1 class="display-2 font-weight-bold mb-3">Mobile Device Table</h1>
       </v-col>
     </v-row>
-
     <v-row>
       <v-card>
         <v-card-title>
-          Nutrition
-          <v-spacer></v-spacer>
+          Mobile Table
+          <v-spacer>
+            <!-- <Dialog :toggleDialogue="toggleDialogue"></Dialog> -->
+          </v-spacer>
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
             label="Search"
             single-line
             hide-details
-          ></v-text-field>
+          >
+  
+        </v-text-field>
           <v-data-table
             v-model:sort-by="sortBy"
             v-model:items-per-page="itemsPerPage"
             :search="search"
             :headers="headers"
-            :items="mobileData"
-            item-value="brand"
+            :items="filteredTableDataFields"
             class="elevation-1"
           >
-            <template v-slot:item="{ item }">
-              <td>{{ item.brand }}</td>
-              <td>{{ item.model }}</td>
-              <td>{{ item.os }}</td>
-              <td>{{ item.release_date }}</td>
-              <td>
-                <v-btn color="blue" @click="handleEdit(item)">
-                  <v-icon icon="mdi-pencil">
-                    <span>Edit</span>
-                  </v-icon>
-                </v-btn>
-              </td>
-              <td>
-                <v-btn color="red" @click="handleDelete">
-                  <v-icon icon="mdi-delete">
-                    <span>Delete</span>
-                  </v-icon>
-                </v-btn>
-              </td>
-            </template>
+          <template v-slot:item="{ item }">
+            <tr> 
+            
+              <td> {{ item.columns.brand }} </td>
+              <td> {{ item.columns.model }} </td>
+              <td> {{ item.columns.os }} </td>
+              <td> {{ item.columns.release_date }} </td>
+              <td>  <v-btn 
+                color="primary"
+                  @click="TODOsomeKindOfModalToggle" 
+                >Edit </v-btn> </td>
+             
+              <td>  <v-btn 
+                color="red"
+                  @click="deleteMobileRecord(item.raw.id)" 
+                >Delete </v-btn> </td>
+           
+          </tr>
+</template> 
+         
           </v-data-table>
         </v-card-title>
       </v-card>
     </v-row>
-  
-    
   </v-container>
 </template>
 
 <script>
 import DeviceService from "../../api/resources/DeviceService";
-import { ref, onMounted } from "vue";
+// import Dialog from "./MobileCreateDialogue.vue";
+import { ref, onMounted, computed } from "vue";
 export default {
   name: "MobileTable",
+  components: {
+    // Dialog,
+  },
+  
   setup() {
     const mobileData = ref([]);
     const headers = [
       {
         title: "Brand",
         align: "start",
-        sortable: true,
+
         key: "brand",
       },
       {
         title: "Model",
         algin: "end",
-        sortable: true,
         key: "model",
       },
       {
         title: "OS",
         align: "end",
-        sortable: true,
+
         key: "os",
       },
       {
         title: "Release Date",
         align: "end",
-        sortable: true,
         key: "release_date",
+      },
+      {
+        title: "Edit Record",
+        align: "end",
+      },
+      {
+        title: "Delete Record",
+        align: "end",
       },
     ];
     const search = ref("");
     const sortBy = [{ key: "os", order: "asc" }];
-    const itemsPerPage = 20;
+    const itemsPerPage = 10;
     const loading = ref(true);
 
     onMounted(() => {
       DeviceService.index().then((response) => {
+        console.log();
         mobileData.value = response;
         loading.value = false;
       });
     });
 
-    const deleteMobileRecord = () => {};
-    const createMobileRecord = () => {};
-    const editMobileRecord = () => {};
+    const filteredTableDataFields = computed(() =>  mobileData.value.map(mobile => {
+      return {
+        id: mobile.id,
+        model: mobile.model, 
+        os: mobile.os,
+        brand: mobile.brand, 
+        release_date: mobile.release_date,
+ 
+      }
+    }));
+    const dialogueBoxStatus = ref(false);
+    const toggleDialogue = () => !dialogueBoxStatus.value;
+
+    const deleteMobileRecord = (id) => {
+      DeviceService.delete(id)
+    };
+    const createMobileRecord = (requestBody) => {
+      DeviceService.post(requestBody)
+    };
+    const editMobileRecord = (id, model) => {
+      DeviceService.put(model, id)
+    };
     return {
-      mobileData,
+      filteredTableDataFields,
       headers,
       loading,
       itemsPerPage,
@@ -114,12 +145,13 @@ export default {
       createMobileRecord,
       editMobileRecord,
       deleteMobileRecord,
+      toggleDialogue,
     };
   },
 };
 </script>
 
-<style scoped> 
+<style scoped>
 .centered-container {
   display: flex;
   flex-direction: column;

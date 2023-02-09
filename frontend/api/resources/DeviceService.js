@@ -1,42 +1,55 @@
-import * as axios from "axios";
 export default {
   index() {
-    return axios
-      .get("/devices")
-      .then((response) => response.data)
+    return fetch("http://localhost:8000/devices", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json().then((response) => response))
       .catch((e) => {
         console.log(e);
       });
   },
   get(id) {
-    axios
-      .get(`/device/${id}`)
-      .then((response) => response.data)
+    fetch(`http://localhost:8000/device/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json().then((response) => response))
       .catch((e) => {
         console.log(e);
       });
   },
   post(requestBody) {
-    axios
-      .post("/device", requestBody)
-      .then((response) => response.data)
+    fetch("http://localhost:8000/device", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => response.json().then((response) => response))
+      .then((response) => {
+        return response;
+      })
       .catch((e) => {
         console.log(e);
       });
   },
   put(modelName, id) {
-    axios
-      .put(`/device/${id}`, modelName)
-      .then((response) => response.data)
+    fetch(`http://localhost:8000/device/${id}`, modelName)
+      .then((response) => response.json().then((response) => response))
       .catch((e) => {
         console.log(e);
       });
   },
 
   delete(id) {
-    axios
-      .post(`/device/${id}`)
-      .then((response) => response.data)
+    fetch(`http://localhost:8000/device/${id}`, { method: "DELETE" })
+      .then((response) => response.json().then((response) => response))
       .catch((e) => {
         console.log(e);
       });
