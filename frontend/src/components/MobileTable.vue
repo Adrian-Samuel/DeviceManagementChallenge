@@ -25,7 +25,7 @@
         :search="search"
         :headers="headers"
         :items="mobileData"
-        item-value="name"
+        item-value="brand"
         class="elevation-1"
   >
     <template v-slot:item="{item}">
@@ -75,9 +75,9 @@ export default {
     })
 
 
-    const handleDelete = () =>{}
-    const handleCreate = () =>{ }
-    const handleEdit = () => {}
+    const deleteMobileRecord = () =>{}
+    const createMobileRecord = () =>{ }
+    const editMobileRecord = () => {}
     return {
       mobileData,
       headers,
@@ -85,9 +85,9 @@ export default {
       itemsPerPage,
       search,
       sortBy,
-      handleCreate,
-      handleEdit,
-      handleDelete
+      createMobileRecord,
+      editMobileRecord,
+      deleteMobileRecord
     }
   },
 
