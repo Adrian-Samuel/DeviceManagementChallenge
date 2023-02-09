@@ -2,7 +2,7 @@
 
 namespace App\src\Domain\Entities;
 
-require_once __DIR__ . '/Default.php';
+require_once __DIR__ . '/BaseTableDefaults.php';
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;

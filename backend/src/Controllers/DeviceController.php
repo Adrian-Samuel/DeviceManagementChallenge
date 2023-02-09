@@ -44,7 +44,7 @@ class DeviceController
             $dtoDevices[] = $this->deviceToJson($device);
         }
         $response->getBody()->write(json_encode($dtoDevices));
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin','*');
     }
 
     /**
@@ -58,7 +58,7 @@ class DeviceController
         } else {
             $response->getBody()->write(json_encode($this->deviceToJson($device)));
         }
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin','*');
     }
 
 
@@ -73,7 +73,7 @@ class DeviceController
 
         $newDevice = $this->deviceService->createDevice($brand, $model, $os, $release_date, $is_new);
         $response->getBody()->write(json_encode($this->deviceToJson($newDevice)));
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin','*');
     }
 
     public function edit(Request $request, Response $response, $args): Response
@@ -81,14 +81,14 @@ class DeviceController
         $requestBody = json_decode($request->getBody()->getContents(), true);
         $device = $this->deviceService->editModelName($args['id'], $requestBody['model']);
         $response->getBody()->write(json_encode($this->deviceToJson($device)));
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin','*');
 
     }
 
     public function delete(Request $request, Response $response, $args): Response
     {
         $this->deviceService->deleteDevice($args['id']);
-        $response->withStatus(200);
+        $response->withStatus(200)->withHeader('Access-Control-Allow-Origin','*');
         return $response;
     }
 
